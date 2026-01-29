@@ -1,0 +1,48 @@
+name: Deploy Django to EC2
+
+on:
+  push:
+    branches:
+      - main   # change if your branch is master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy on EC2
+        run: |
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ~/django-backend/Kick-Off-E-commerce-backend
+
+            echo "📥 Pulling latest code..."
+            git pull origin main
+
+            echo "🐍 Activating virtual environment..."
+            source ../venv/bin/activate
+
+            echo "📦 Installing dependencies..."
+            pip install -r requirements.txt
+
+            echo "🗄️ Running migrations..."
+            python manage.py migrate
+
+            echo "🧹 Collecting static files..."
+            python manage.py collectstatic --noinput
+
+            echo "🔄 Restarting services..."
+            sudo systemctl restart gunicorn
+            sudo systemctl restart nginx
+
+            echo "✅ Deployment finished!"
+          EOF
