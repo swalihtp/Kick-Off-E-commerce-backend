@@ -164,11 +164,19 @@ SPECTACULAR_SETTINGS = {
 
 
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+# ]
+# 
+CORS_ALLOW_ALL_ORIGINS = False
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "https://kick-off-e-commerce-application.vercel.app",
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+# 
 AUTH_USER_MODEL = 'accounts.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
