@@ -203,7 +203,7 @@ class RegisterAdminAPIView(APIView):
         serializer = RegisterSerializer(data=request.data)
 
         if serializer.is_valid():
-            password = request.data.get('password')
+            password = serializer.validated_data['password']
             user = serializer.save(is_staff=True)
 
             # Sending  email
@@ -213,7 +213,7 @@ class RegisterAdminAPIView(APIView):
                     f"Hello {user.first_name},\n\n"
                     f"Your admin account has been successfully created.\n\n"
                     f"Login Email: {user.email}\n"
-                    f"Password: {password}\n\n"
+                    f"Temp Password: {password}\n\n"
                     f"Please change your password after logging in.\n\n"
                     f"Thankyou,\n"
                 ),
