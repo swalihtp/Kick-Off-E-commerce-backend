@@ -22,6 +22,8 @@ from rest_framework.permissions import IsAdminUser
 from django.utils.encoding import force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import get_object_or_404
+import os
+from dotenv import load_dotenv
 
 
 class RegisterApiView(APIView):
@@ -38,7 +40,7 @@ class RegisterApiView(APIView):
 
             #  Verification link
             verification_link = (
-                f"http://localhost:5173/verify-email/"
+                f"{os.getenv('FRONTEND_DOMAIN')}/verify-email/"
                 f"{uid}/{token}/"
             )
 

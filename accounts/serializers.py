@@ -27,7 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user.is_staff = is_staff
         user.is_active = True if is_staff else False
-        user.role='admin'
+        user.role='admin' if is_staff else False
         user.save()
 
         return user
@@ -62,3 +62,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         if value and not value.isdigit():
             raise serializers.ValidationError("Phone number must be numeric")
         return value
+    

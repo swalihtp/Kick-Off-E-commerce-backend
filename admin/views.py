@@ -145,3 +145,5 @@ class AdminSearchAPIView(APIView):
                 } for p in products
             ]
         })
+
+        
