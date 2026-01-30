@@ -27,7 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user.is_staff = is_staff
         user.is_active = True if is_staff else False
-        user.role='admin' if is_staff else False
+        user.role='admin' if is_staff else 'user'
         user.save()
 
         return user
