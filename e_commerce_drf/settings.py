@@ -17,6 +17,11 @@ import os
 
 load_dotenv()
 
+print("DB HOST FROM ENV:", os.getenv("DB_HOST"))
+print("FRONTEND_DOMAIN:", os.getenv("FRONTEND_DOMAIN"))
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -176,7 +181,11 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+# ]
 
+# CORS_ALLOW_CREDENTIALS = True
 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -199,3 +208,10 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 
 GOOGLE_CLIENT_ID=os.getenv('GOOGLE_CLIENT_ID')
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://kickoffecommerse.duckdns.org",
+]
